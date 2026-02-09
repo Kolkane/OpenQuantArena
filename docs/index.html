@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OpenQuantArena</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b1020;--card:#111a33;--text:#eaf0ff;--muted:#b6c3ff;--link:#7aa2ff;--border:#22305c}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--text)}
+    .wrap{max-width:980px;margin:0 auto;padding:48px 20px}
+    .hero{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+    h1{font-size:42px;line-height:1.1;margin:0}
+    p{color:var(--muted);font-size:16px;line-height:1.6;margin:0}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:24px}
+    .card{grid-column:span 12;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
+    @media(min-width:880px){.card.half{grid-column:span 6}}
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    code{background:#0f1630;border:1px solid var(--border);padding:2px 6px;border-radius:8px}
+    ul{margin:10px 0 0 18px;color:var(--muted)}
+    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .btn{display:inline-block;border:1px solid var(--border);background:#0f1630;color:var(--text);padding:10px 12px;border-radius:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>OpenQuantArena</h1>
+      <p>Paper-trading only. Strategy Lab + Backtest Worker + Leaderboard.</p>
+      <p>FastAPI + Postgres + Redis + Celery. Deterministic dummy backtests (demo-ready).</p>
+      <div class="btns">
+        <a class="btn" href="https://github.com/Kolkane/OpenQuantArena" target="_blank" rel="noreferrer">GitHub Repo</a>
+        <a class="btn" href="https://github.com/Kolkane/OpenQuantArena#quick-curl-demo" target="_blank" rel="noreferrer">Quick Demo (README)</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card half">
+        <h2 style="margin:0 0 8px 0">What it does</h2>
+        <ul>
+          <li>Users: email + password + JWT auth</li>
+          <li>Strategies: CRUD + upload a <code>.py</code> file (stored in a volume)</li>
+          <li>Backtests: enqueue a job (Celery) over a date range</li>
+          <li>Results: store metrics (CAGR, max drawdown, Sharpe)</li>
+          <li>Arena: leaderboard on latest successful backtest per strategy</li>
+        </ul>
+      </div>
+
+      <div class="card half">
+        <h2 style="margin:0 0 8px 0">API UI</h2>
+        <p>When deployed, FastAPI provides Swagger UI at <code>/docs</code> and OpenAPI JSON at <code>/openapi.json</code>.</p>
+        <p style="margin-top:10px">Deployment is the next step (VPS/Docker or a PaaS). This page is just the public landing.</p>
+      </div>
+
+      <div class="card">
+        <h2 style="margin:0 0 8px 0">Next steps</h2>
+        <ul>
+          <li>Add GitHub Actions CI (pytest + import sanity)</li>
+          <li>Deploy (Docker host) + connect quantarena.io</li>
+          <li>Add minimal web UI (Next.js) if we want a real dashboard</li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="margin-top:28px;color:#94a3d6">© OpenQuantArena — paper-only, no financial advice.</p>
+  </div>
+</body>
+</html>
