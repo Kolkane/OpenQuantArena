@@ -29,11 +29,16 @@ def create_app() -> FastAPI:
         # AUTO_MIGRATE=0.
         if os.getenv("AUTO_MIGRATE", "1") in {"0", "false", "False"}:
             return
-        try:
-            subprocess.run(["alembic", "upgrade", "head"], check=True)
-        except Exception as e:
-            # Don't fail hard on migration errors in MVP; logs will show the cause.
-            print(f"[auto-migrate] failed: {e}")
+
+        cmd = ["alembic", "-c", "/app/alembic.ini", "upgrade", "head"]
+        print(f"[auto-migrate] running: {' '.join(cmd)}")
+        proc = subprocess.run(cmd, capture_output=True, text=True)
+        if proc.stdout:
+            print(f"[auto-migrate][stdout]\n{proc.stdout}")
+        if proc.stderr:
+            print(f"[auto-migrate][stderr]\n{proc.stderr}")
+        if proc.returncode != 0:
+            raise RuntimeError(f"Auto-migrate failed with exit code {proc.returncode}")
 
     @app.get("/health")
     async def health() -> dict[str, str]:
