@@ -1,0 +1,56 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-oqa}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-oqa_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-openquantarena}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: .
+      target: api
+    env_file:
+      - .env.example
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://oqa:oqa_secret@db:5432/openquantarena}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      STRATEGY_UPLOAD_DIR: ${STRATEGY_UPLOAD_DIR:-/data/strategies}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+      - strategy_data:/data/strategies
+    depends_on:
+      - db
+      - redis
+
+  worker:
+    build:
+      context: .
+      target: worker
+    env_file:
+      - .env.example
+    environment:
+      DATABASE_URL_SYNC: ${DATABASE_URL_SYNC:-postgresql://oqa:oqa_secret@db:5432/openquantarena}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      STRATEGY_UPLOAD_DIR: ${STRATEGY_UPLOAD_DIR:-/data/strategies}
+    volumes:
+      - ./:/app
+      - strategy_data:/data/strategies
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  pgdata:
+  strategy_data:
