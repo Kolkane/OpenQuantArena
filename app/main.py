@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import os
+import subprocess
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -18,6 +21,19 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    @app.on_event("startup")
+    async def _auto_migrate() -> None:
+        # Railway doesn't reliably run "pre-deploy" hooks. To keep the demo stable,
+        # we run Alembic migrations on startup (idempotent). Disable by setting
+        # AUTO_MIGRATE=0.
+        if os.getenv("AUTO_MIGRATE", "1") in {"0", "false", "False"}:
+            return
+        try:
+            subprocess.run(["alembic", "upgrade", "head"], check=True)
+        except Exception as e:
+            # Don't fail hard on migration errors in MVP; logs will show the cause.
+            print(f"[auto-migrate] failed: {e}")
 
     @app.get("/health")
     async def health() -> dict[str, str]:
