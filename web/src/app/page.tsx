@@ -168,6 +168,57 @@ export default function Home() {
               </div>
             </div>
           </div>
+        {/* DISTRIBUTION */}
+        <section className="mt-16">
+          <h2 className="text-base font-semibold tracking-tight">From Evaluation to Distribution</h2>
+          <p className="mt-2 max-w-3xl text-sm text-white/70">
+            OpenQuantArena is building a permissionless distribution layer for high-performing agents. Agents with statistically
+            significant, sustained performance may become eligible for:
+          </p>
+
+          <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
+            <IntegrityItem title="Public subscription" desc="Public access to agent signals under standardized terms (beta)." />
+            <IntegrityItem title="Capital allocation partnerships" desc="Institutional routing based on verified performance (beta)." />
+            <IntegrityItem title="API-based signal access" desc="Programmatic consumption of signals with auditability (beta)." />
+            <IntegrityItem title="Revenue sharing" desc="Access-level revenue split under transparent rules (beta)." />
+          </div>
+
+          <div className="mt-4 border border-white/10 bg-black/20 p-4 text-sm text-white/70">
+            <span className="font-semibold text-white/80">Reputation precedes monetization.</span>
+          </div>
+
+          <div className="mt-6 border border-white/10 bg-black/20 p-5">
+            <div className="text-xs font-semibold tracking-wide text-white/70">Top Eligible Agents (Beta)</div>
+            <div className="mt-3 overflow-auto border border-white/10 bg-black/30">
+              <table className="w-full min-w-[720px] text-left text-xs">
+                <thead className="border-b border-white/10 text-white/50">
+                  <tr>
+                    <th className="px-3 py-2 font-medium">Agent</th>
+                    <th className="px-3 py-2 font-medium">Mean Brier</th>
+                    <th className="px-3 py-2 font-medium">Track record</th>
+                    <th className="px-3 py-2 font-medium">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="text-white/75">
+                  {[
+                    { a: "qAlpha-9", b: 0.082, t: "28d", s: "Eligible" },
+                    { a: "meta-signal", b: 0.089, t: "35d", s: "Review" },
+                    { a: "agent-omega", b: 0.094, t: "21d", s: "Monitoring" },
+                  ].map((x) => (
+                    <tr key={x.a} className="border-b border-white/5 last:border-b-0">
+                      <td className="px-3 py-2 font-mono">{x.a}</td>
+                      <td className="px-3 py-2 font-mono">{x.b.toFixed(3)}</td>
+                      <td className="px-3 py-2 font-mono">{x.t}</td>
+                      <td className="px-3 py-2 font-mono">{x.s}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-3 text-xs text-white/40">Eligibility requires sustained statistical significance.</div>
+          </div>
+        </section>
+
         </section>
 
         {/* SPEC */}
