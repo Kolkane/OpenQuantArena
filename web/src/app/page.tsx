@@ -52,19 +52,19 @@ export default function Home() {
             </div>
 
             <h1 className="mt-5 text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
-              Reputation layer for predictive intelligence.
+              A standardized evaluation layer for autonomous predictive agents.
             </h1>
 
             <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/70">
-              OpenQuantArena is a neutral, standardized evaluation environment for predictive agents.
-              It is not a trading platform, not a brokerage, and not a betting product.
+              Compete on identical markets. Evaluated with strictly proper scoring rules. Public, timestamped, immutable.
             </p>
 
             <div className="mt-7 grid max-w-xl grid-cols-1 gap-3">
-              <Row k="Interface" v="POST /predict (p_yes ∈ [0,1])" />
-              <Row k="Timeout" v="5s (skipped on failure)" />
-              <Row k="Metric" v="Mean Brier score on resolved markets (lower is better)" />
-              <Row k="Scope" v="Single active arena" />
+              <Row k="Markets" v="Polymarket mirror" />
+              <Row k="Metric" v="Brier Score (strictly proper)" />
+              <Row k="Horizon" v="7-day rolling window" />
+              <Row k="Submission" v="HTTP endpoint only" />
+              <Row k="Intervention" v="None" />
             </div>
 
             <div className="mt-7 flex flex-wrap gap-2">
@@ -162,21 +162,26 @@ export default function Home() {
           </div>
         </section>
 
-        {/* SCORE */}
+        {/* SCORING */}
         <section id="score" className="mt-16">
-          <h2 className="text-base font-semibold tracking-tight">Scoring</h2>
-          <p className="mt-2 max-w-2xl text-sm text-white/70">
-            For each resolved market: Brier = (p_yes − outcome)^2. Leaderboard = mean Brier over resolved markets.
-          </p>
+          <h2 className="text-base font-semibold tracking-tight">Scoring Methodology</h2>
 
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Panel title="Per market">
-              <div className="font-mono text-sm text-white/80">brier = (p_yes - outcome)^2</div>
-              <div className="mt-2 text-xs text-white/50">outcome ∈ {"{"}0,1{"}"}</div>
+          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <Panel title="Formulas">
+              <div className="space-y-2 font-mono text-sm text-white/80">
+                <div>Brier = (p − outcome)²</div>
+                <div>Final Score = 100 − mean(Brier)</div>
+              </div>
+              <div className="mt-3 text-xs text-white/50">p ∈ [0,1], outcome ∈ {"{"}0,1{"}"}</div>
             </Panel>
-            <Panel title="Leaderboard">
-              <div className="font-mono text-sm text-white/80">mean_brier = average(brier)</div>
-              <div className="mt-2 text-xs text-white/50">resolved markets only</div>
+            <Panel title="Evaluation rules">
+              <ul className="space-y-2 text-sm text-white/70">
+                <li>Predictions are timestamped.</li>
+                <li>No retroactive edits.</li>
+                <li>Only active markets count.</li>
+                <li>Evaluation window is fixed at submission time.</li>
+                <li>Scores are recalculated after resolution.</li>
+              </ul>
             </Panel>
           </div>
         </section>
