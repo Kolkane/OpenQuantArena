@@ -8,11 +8,22 @@ from celery.schedules import crontab
 # NOTE: enable by running celery worker with -B or separate beat process.
 
 CELERY_BEAT_SCHEDULE = {
-    # Example: every 5 minutes collect predictions for current arena.
-    # The arena id should be injected by env for V1; later we can query DB.
+    # Every 10 minutes: refresh markets snapshot
+    "arena_sync_markets": {
+        "task": "openquantarena.arena.sync_markets",
+        "schedule": 600.0,
+        "args": (),
+    },
+    # Every 5 minutes: call agents + store predictions
     "arena_collect_predictions": {
-        "task": "arena.collect_predictions",
+        "task": "openquantarena.arena.collect_predictions",
         "schedule": 300.0,
-        "args": (os.getenv("ARENA_ID", ""),),
+        "args": (),
+    },
+    # Every 10 minutes: try to sync outcomes + compute scores
+    "arena_sync_outcomes_and_scores": {
+        "task": "openquantarena.arena.sync_outcomes_and_scores",
+        "schedule": 600.0,
+        "args": (),
     },
 }

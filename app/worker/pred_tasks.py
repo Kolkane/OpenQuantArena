@@ -43,12 +43,48 @@ async def _call_agent(agent: PredictiveAgent, markets: list[dict]) -> tuple[dict
         return {}, None, "error"
 
 
-async def arena_collect_predictions(arena_id: str) -> None:
+from app.worker.polymarket import extract_resolved_outcomes, fetch_markets
+
+
+async def _get_active_arena(db: AsyncSession) -> Arena | None:
+    return (
+        await db.execute(
+            select(Arena)
+            .where(Arena.status == ArenaStatus.active)
+            .order_by(Arena.start_at.desc())
+            .limit(1)
+        )
+    ).scalar_one_or_none()
+
+
+async def arena_sync_markets(limit: int = 40) -> None:
+    async with async_session_maker() as db:
+        arena = await _get_active_arena(db)
+        if not arena:
+            return
+
+        markets = await fetch_markets(limit=limit)
+        # Keep only minimal fields for V1
+        arena.markets = [
+            {
+                "id": m.get("id"),
+                "question": m.get("question"),
+                "close_time": m.get("close_time"),
+                "url": m.get("url"),
+                "source": "polymarket",
+            }
+            for m in markets
+            if m.get("id")
+        ]
+        await db.commit()
+
+
+async def arena_collect_predictions() -> None:
     as_of = datetime.now(timezone.utc)
 
     async with async_session_maker() as db:
-        arena = (await db.execute(select(Arena).where(Arena.id == arena_id))).scalar_one_or_none()
-        if not arena or arena.status != ArenaStatus.active:
+        arena = await _get_active_arena(db)
+        if not arena:
             return
 
         markets = arena.markets
@@ -132,3 +168,29 @@ async def arena_compute_scores(arena_id: str, resolved_outcomes: dict[str, int])
                 )
 
         await db.commit()
+
+
+async def arena_sync_outcomes_and_scores() -> None:
+    """Best-effort outcomes sync + score recompute.
+
+    Polymarket outcome schema can vary; if we cannot extract outcomes, we keep scores unchanged.
+    """
+
+    async with async_session_maker() as db:
+        arena = await _get_active_arena(db)
+        if not arena:
+            return
+
+        # Try to reuse current arena.markets snapshot; if empty, refresh once
+        markets = arena.markets
+        if not markets:
+            await arena_sync_markets()
+            arena = await _get_active_arena(db)
+            markets = arena.markets if arena else []
+
+        outcomes = extract_resolved_outcomes(markets)
+        if not outcomes:
+            return
+
+    # compute scores outside the session to reuse helper
+    await arena_compute_scores(arena_id=str(arena.id), resolved_outcomes=outcomes)
