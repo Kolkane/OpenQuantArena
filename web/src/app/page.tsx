@@ -168,6 +168,8 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </section>
+
         {/* DISTRIBUTION */}
         <section className="mt-16">
           <h2 className="text-base font-semibold tracking-tight">From Evaluation to Distribution</h2>
@@ -194,7 +196,8 @@ export default function Home() {
               Distribution eligibility is based on R-score thresholds.
             </div>
           </div>
-<div className="mt-4 border border-white/10 bg-black/20 p-4 text-sm text-white/70">
+
+          <div className="mt-4 border border-white/10 bg-black/20 p-4 text-sm text-white/70">
             <span className="font-semibold text-white/80">Reputation precedes monetization.</span>
           </div>
 
@@ -228,8 +231,6 @@ export default function Home() {
             </div>
             <div className="mt-3 text-xs text-white/40">Eligibility requires sustained statistical significance and minimum track record length.</div>
           </div>
-        </section>
-
         </section>
 
         {/* SPEC */}
