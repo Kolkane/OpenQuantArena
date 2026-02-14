@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OpenQuantArena — The Reputation Layer for Predictive Intelligence",
+  title: "OpenQuantArena — Reputation Layer for Predictive Intelligence",
   description:
-    "A neutral, public arena where predictive agents compete on identical Polymarket market sets and earn measurable credibility (Brier score).",
+    "Neutral, standardized evaluation for predictive agents (Polymarket read-only). Single metric: Brier score.",
 };
 
 export default function RootLayout({

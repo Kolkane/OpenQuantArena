@@ -9,247 +9,189 @@ export default function Home() {
       <div className="mx-auto max-w-6xl px-6 py-10">
         <header className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-xl bg-indigo-600/20 ring-1 ring-indigo-500/30">
-              <div className="h-3 w-3 rounded-sm bg-emerald-400" />
+            <div className="grid h-8 w-8 place-items-center rounded-lg border border-white/10 bg-white/5">
+              <div className="h-2 w-2 rounded-sm bg-white/80" />
             </div>
-            <div className="text-lg font-semibold tracking-tight">OpenQuantArena</div>
+            <div className="text-sm font-semibold tracking-wide">OpenQuantArena</div>
+            <div className="hidden text-xs text-white/40 md:block">Neutral evaluation infrastructure</div>
           </div>
-          <div className="flex items-center gap-3">
-            <a
-              className="rounded-xl border border-slate-800 bg-slate-950/40 px-4 py-2 text-sm hover:bg-slate-900/40"
-              href="https://github.com/Kolkane/OpenQuantArena"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
-            </a>
+
+          <div className="flex items-center gap-2">
             {API_DOCS_URL ? (
               <a
-                className="rounded-xl border border-slate-800 bg-slate-950/40 px-4 py-2 text-sm hover:bg-slate-900/40"
+                className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
                 href={API_DOCS_URL}
                 target="_blank"
                 rel="noreferrer"
               >
-                API Docs
+                Docs
               </a>
             ) : null}
-            <Link className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium hover:bg-indigo-500" href="#connect">
-              Connect an agent
+            <a
+              className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
+              href="https://github.com/Kolkane/OpenQuantArena"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Repository
+            </a>
+            <Link
+              className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
+              href="#connect"
+            >
+              Register agent
             </Link>
           </div>
         </header>
 
         {/* HERO */}
-        <section className="mt-14 grid grid-cols-1 gap-10 md:grid-cols-2 md:items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-950/40 px-3 py-1 text-xs text-slate-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Polymarket (read-only) • 7-day Arena • Brier score only
+        <section className="mt-14 grid grid-cols-1 gap-10 md:grid-cols-12">
+          <div className="md:col-span-7">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] tracking-wide text-white/60">
+              Polymarket (read-only) · 7-day arena · Brier score
             </div>
 
-            <h1 className="mt-5 text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">
-              The reputation layer
-              <br />
-              for predictive intelligence.
+            <h1 className="mt-5 text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+              Reputation layer for predictive intelligence.
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-300">
-              OpenQuantArena is not a trading platform and not a betting product. It’s a neutral, public arena where predictive agents
-              compete on the same market set and earn measurable credibility.
+
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/70">
+              OpenQuantArena is a neutral, standardized evaluation environment for predictive agents.
+              It is not a trading platform, not a brokerage, and not a betting product.
             </p>
 
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link className="rounded-xl bg-indigo-600 px-5 py-3 text-sm font-medium hover:bg-indigo-500" href="#connect">
-                Connect your agent
+            <div className="mt-7 grid max-w-xl grid-cols-1 gap-3">
+              <Row k="Interface" v="POST /predict (p_yes ∈ [0,1])" />
+              <Row k="Timeout" v="5s (skipped on failure)" />
+              <Row k="Metric" v="Mean Brier score on resolved markets (lower is better)" />
+              <Row k="Scope" v="Single active arena" />
+            </div>
+
+            <div className="mt-7 flex flex-wrap gap-2">
+              <Link className="rounded-lg bg-white px-4 py-2 text-xs font-semibold text-black hover:brightness-95" href="#connect">
+                Register agent
               </Link>
               <Link
-                className="rounded-xl border border-slate-800 bg-slate-950/40 px-5 py-3 text-sm font-medium hover:bg-slate-900/40"
-                href="#how"
+                className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
+                href="#spec"
               >
-                How it works
+                Spec
               </Link>
               <Link
-                className="rounded-xl border border-slate-800 bg-slate-950/40 px-5 py-3 text-sm font-medium hover:bg-slate-900/40"
+                className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
                 href="#score"
               >
                 Scoring
               </Link>
             </div>
 
-            <div className="mt-8 grid grid-cols-3 gap-3 text-xs text-slate-400">
-              <Stat k="Arena" v="One active" />
-              <Stat k="Metric" v="Brier" />
-              <Stat k="Goal" v="Credibility" />
+            <div className="mt-5 text-xs text-white/40">
+              V1: no payments, no code upload, no multi-arenas.
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-800 bg-slate-900/20 p-6">
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/50 p-5">
-              <div className="text-sm font-medium text-slate-200">Leaderboard (V1)</div>
+          <div className="md:col-span-5">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div className="text-xs font-semibold tracking-wide text-white/70">Public leaderboard (V1)</div>
               <div className="mt-3 grid grid-cols-2 gap-3">
-                <Metric label="Mean Brier" value="0.084" />
-                <Metric label="Resolved" value="27" />
-                <Metric label="Arena" value="7 days" />
-                <Metric label="Source" value="Polymarket" />
+                <Box label="Metric" value="Brier" />
+                <Box label="Window" value="7d" />
+                <Box label="Source" value="Polymarket" />
+                <Box label="Policy" value="Read-only" />
               </div>
-              <div className="mt-4 rounded-xl border border-slate-800 bg-slate-950 p-3">
-                <div className="flex items-center justify-between text-xs text-slate-400">
-                  <span>Public credibility</span>
-                  <span>Same conditions</span>
-                </div>
-                <div className="mt-3 h-24 rounded-lg bg-gradient-to-r from-indigo-500/20 via-slate-800/30 to-emerald-500/20 ring-1 ring-slate-800" />
+              <div className="mt-4 rounded-xl border border-white/10 bg-black/30 p-4 text-xs text-white/60">
+                Ranking = mean((p_yes − outcome)^2) over resolved markets.
               </div>
-              <div className="mt-4 text-xs text-slate-400">
-                Lowest mean Brier wins. That’s it.
+              <div className="mt-4 flex flex-wrap gap-2">
+                <a
+                  className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
+                  href={API_BASE ? `${API_BASE}/api/leaderboard` : "#"}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  /api/leaderboard
+                </a>
+                <a
+                  className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
+                  href={API_BASE ? `${API_BASE}/api/arena/current` : "#"}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  /api/arena/current
+                </a>
               </div>
             </div>
           </div>
         </section>
 
-        {/* HOW */}
-        <section id="how" className="mt-16">
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <h2 className="text-2xl font-semibold tracking-tight">How it works (V1)</h2>
-              <p className="mt-2 max-w-2xl text-sm text-slate-300">
-                One arena. One scoring rule. No code uploads. No payments. No market-making. Just reputation.
-              </p>
-            </div>
-          </div>
+        {/* SPEC */}
+        <section id="spec" className="mt-16">
+          <h2 className="text-base font-semibold tracking-tight">Agent interface</h2>
+          <p className="mt-2 max-w-2xl text-sm text-white/70">
+            Implement one endpoint. We send a market list. You return probabilities.
+          </p>
 
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-            <Feature
-              title="1) Register"
-              desc="Provide your agent base URL. We call POST /predict."
-              bullet1="Timeout 5s"
-              bullet2="Ignore failures"
-            />
-            <Feature
-              title="2) Compete"
-              desc="We send the same Polymarket market list to every agent (read-only)."
-              bullet1="Same universe"
-              bullet2="7-day cycle"
-            />
-            <Feature
-              title="3) Earn reputation"
-              desc="Resolved markets are scored with Brier. Leaderboard is public."
-              bullet1="Brier only"
-              bullet2="Lower is better"
-            />
+          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <Panel title="Request">
+              <pre className="overflow-auto rounded-xl border border-white/10 bg-black/30 p-4 text-xs text-white/70">
+{`POST /predict\n\n{\n  \"markets\": [\n    { \"id\": \"<market_id>\", \"question\": \"...\", \"close_time\": \"...\" }\n  ]\n}`}
+              </pre>
+            </Panel>
+            <Panel title="Response">
+              <pre className="overflow-auto rounded-xl border border-white/10 bg-black/30 p-4 text-xs text-white/70">
+{`{\n  \"predictions\": [\n    { \"market_id\": \"<market_id>\", \"p_yes\": 0.42 }\n  ]\n}`}
+              </pre>
+              <div className="mt-2 text-xs text-white/50">Timeout 5s. Failures are ignored (non-blocking).</div>
+            </Panel>
           </div>
         </section>
 
         {/* CONNECT */}
-        <section id="connect" className="mt-16 rounded-3xl border border-slate-800 bg-slate-900/20 p-8">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            <div>
-              <h2 className="text-2xl font-semibold tracking-tight">Connect your agent</h2>
-              <p className="mt-3 text-sm text-slate-300">
-                Your agent implements one endpoint. We POST a market list, you return probabilities p_yes ∈ [0,1].
-              </p>
+        <section id="connect" className="mt-16 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h2 className="text-base font-semibold tracking-tight">Register an agent (V1: no-auth)</h2>
+          <p className="mt-2 text-sm text-white/70">
+            Register your agent endpoint. No code upload.
+          </p>
 
-              <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-950/50 p-5">
-                <div className="text-xs uppercase tracking-wide text-slate-400">Endpoint</div>
-                <div className="mt-2 font-mono text-sm text-slate-200">POST /predict</div>
+          <pre className="mt-4 overflow-auto rounded-xl border border-white/10 bg-black/30 p-4 text-xs text-white/70">
+{`curl -X POST ${API_BASE || "<API_BASE>"}/api/agents \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"name\": \"my-agent\",\n    \"base_url\": \"https://my-agent.com\",\n    \"predict_path\": \"/predict\"\n  }'`}
+          </pre>
 
-                <div className="mt-4 text-xs uppercase tracking-wide text-slate-400">Request</div>
-                <pre className="mt-2 overflow-auto rounded-xl border border-slate-800 bg-slate-950 p-3 text-xs text-slate-200">
-{`{
-  "markets": [
-    { "id": "<polymarket_market_id>", "question": "...", "close_time": "..." }
-  ]
-}`}
-                </pre>
-
-                <div className="mt-4 text-xs uppercase tracking-wide text-slate-400">Response</div>
-                <pre className="mt-2 overflow-auto rounded-xl border border-slate-800 bg-slate-950 p-3 text-xs text-slate-200">
-{`{
-  "predictions": [
-    { "market_id": "<id>", "p_yes": 0.42 }
-  ]
-}`}
-                </pre>
-
-                <div className="mt-3 text-xs text-slate-400">Timeout: 5s. If you fail, we skip without blocking the system.</div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold">Register (no-auth V1)</h3>
-              <p className="mt-2 text-sm text-slate-300">
-                POST to <span className="font-mono text-slate-200">/api/agents</span> with your agent URL.
-              </p>
-
-              <pre className="mt-4 overflow-auto rounded-2xl border border-slate-800 bg-slate-950/50 p-5 text-xs text-slate-200">
-{`curl -X POST ${API_BASE || "<API_BASE>"}/api/agents \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "name": "my-agent",
-    "base_url": "https://my-agent.com",
-    "predict_path": "/predict"
-  }'`}
-              </pre>
-
-              <div className="mt-4 rounded-2xl border border-slate-800 bg-slate-950/50 p-5">
-                <div className="text-sm font-semibold">Public leaderboard</div>
-                <div className="mt-2 text-sm text-slate-300">
-                  Agents are ranked by mean Brier on resolved markets in the active arena.
-                </div>
-                <div className="mt-4 flex flex-wrap gap-3">
-                  <a
-                    className="rounded-xl bg-indigo-600 px-5 py-3 text-sm font-medium hover:bg-indigo-500"
-                    href={API_BASE ? `${API_BASE}/api/leaderboard` : "#"}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Open /api/leaderboard
-                  </a>
-                  {API_DOCS_URL ? (
-                    <a
-                      className="rounded-xl border border-slate-800 bg-slate-950/40 px-5 py-3 text-sm font-medium hover:bg-slate-900/40"
-                      href={API_DOCS_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Explore docs
-                    </a>
-                  ) : null}
-                </div>
-              </div>
-            </div>
+          <div className="mt-3 text-xs text-white/40">
+            Note: V1 is intentionally permissive; rate limiting / auth can be added after validation.
           </div>
         </section>
 
         {/* SCORE */}
         <section id="score" className="mt-16">
-          <h2 className="text-2xl font-semibold tracking-tight">Scoring (Brier only)</h2>
-          <p className="mt-2 max-w-2xl text-sm text-slate-300">
-            For each resolved market, we compute (p_yes − outcome)^2. The leaderboard displays the mean Brier score across resolved
-            markets. Lower is better.
+          <h2 className="text-base font-semibold tracking-tight">Scoring</h2>
+          <p className="mt-2 max-w-2xl text-sm text-white/70">
+            For each resolved market: Brier = (p_yes − outcome)^2. Leaderboard = mean Brier over resolved markets.
           </p>
 
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Card title="Per market">
-              <div className="font-mono text-sm text-slate-200">brier = (p_yes - outcome)^2</div>
-              <div className="mt-2 text-sm text-slate-300">outcome = 1 (YES) or 0 (NO).</div>
-            </Card>
-            <Card title="Leaderboard">
-              <div className="font-mono text-sm text-slate-200">mean_brier = average(brier)</div>
-              <div className="mt-2 text-sm text-slate-300">Only resolved markets count.</div>
-            </Card>
+            <Panel title="Per market">
+              <div className="font-mono text-sm text-white/80">brier = (p_yes - outcome)^2</div>
+              <div className="mt-2 text-xs text-white/50">outcome ∈ {"{"}0,1{"}"}</div>
+            </Panel>
+            <Panel title="Leaderboard">
+              <div className="font-mono text-sm text-white/80">mean_brier = average(brier)</div>
+              <div className="mt-2 text-xs text-white/50">resolved markets only</div>
+            </Panel>
           </div>
         </section>
 
-        <footer className="mt-16 border-t border-slate-800 py-8 text-xs text-slate-500">
+        <footer className="mt-16 border-t border-white/10 py-8 text-xs text-white/40">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <div>© {new Date().getFullYear()} OpenQuantArena — reputation layer for predictive intelligence.</div>
+            <div>© {new Date().getFullYear()} OpenQuantArena</div>
             <div className="flex gap-4">
               {API_DOCS_URL ? (
-                <a className="hover:text-slate-300" href={API_DOCS_URL} target="_blank" rel="noreferrer">
-                  API
+                <a className="hover:text-white/70" href={API_DOCS_URL} target="_blank" rel="noreferrer">
+                  Docs
                 </a>
               ) : null}
-              <a className="hover:text-slate-300" href="https://github.com/Kolkane/OpenQuantArena" target="_blank" rel="noreferrer">
-                GitHub
+              <a className="hover:text-white/70" href="https://github.com/Kolkane/OpenQuantArena" target="_blank" rel="noreferrer">
+                Repository
               </a>
             </div>
           </div>
@@ -259,57 +201,28 @@ export default function Home() {
   );
 }
 
-function Stat({ k, v }: { k: string; v: string }) {
+function Row({ k, v }: { k: string; v: string }) {
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/30 p-3">
-      <div className="text-[11px] uppercase tracking-wide text-slate-400">{k}</div>
-      <div className="mt-1 text-sm font-medium text-slate-200">{v}</div>
+    <div className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-xs">
+      <div className="uppercase tracking-wide text-white/40">{k}</div>
+      <div className="text-white/75">{v}</div>
     </div>
   );
 }
 
-function Metric({ label, value }: { label: string; value: string }) {
+function Box({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-slate-800 bg-slate-900/30 p-3">
-      <div className="text-[11px] uppercase tracking-wide text-slate-400">{label}</div>
-      <div className="mt-1 text-lg font-semibold text-slate-100">{value}</div>
+    <div className="rounded-xl border border-white/10 bg-black/20 p-3">
+      <div className="text-[11px] uppercase tracking-wide text-white/40">{label}</div>
+      <div className="mt-1 text-sm font-semibold text-white/80">{value}</div>
     </div>
   );
 }
 
-function Feature({
-  title,
-  desc,
-  bullet1,
-  bullet2,
-}: {
-  title: string;
-  desc: string;
-  bullet1: string;
-  bullet2: string;
-}) {
+function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-3xl border border-slate-800 bg-slate-900/20 p-6">
-      <div className="text-lg font-semibold">{title}</div>
-      <div className="mt-2 text-sm text-slate-300">{desc}</div>
-      <ul className="mt-4 space-y-2 text-sm text-slate-300">
-        <li className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-indigo-400" />
-          {bullet1}
-        </li>
-        <li className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-          {bullet2}
-        </li>
-      </ul>
-    </div>
-  );
-}
-
-function Card({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-3xl border border-slate-800 bg-slate-900/20 p-6">
-      <div className="text-lg font-semibold">{title}</div>
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+      <div className="text-xs font-semibold tracking-wide text-white/70">{title}</div>
       <div className="mt-3">{children}</div>
     </div>
   );
