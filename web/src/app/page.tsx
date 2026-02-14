@@ -9,7 +9,7 @@ export default function Home() {
       <div className="mx-auto max-w-6xl px-6 py-10">
         <header className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="grid h-8 w-8 place-items-center rounded-lg border border-white/10 bg-white/5">
+            <div className="grid h-8 w-8 place-items-center rounded-sm border border-white/10 bg-white/5">
               <div className="h-2 w-2 rounded-sm bg-white/80" />
             </div>
             <div className="text-sm font-semibold tracking-wide">OpenQuantArena</div>
@@ -19,7 +19,7 @@ export default function Home() {
           <div className="flex items-center gap-2">
             {API_DOCS_URL ? (
               <a
-                className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
+                className="rounded-sm border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
                 href={API_DOCS_URL}
                 target="_blank"
                 rel="noreferrer"
@@ -28,7 +28,7 @@ export default function Home() {
               </a>
             ) : null}
             <a
-              className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
+              className="rounded-sm border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
               href="https://github.com/Kolkane/OpenQuantArena"
               target="_blank"
               rel="noreferrer"
@@ -36,7 +36,7 @@ export default function Home() {
               Repository
             </a>
             <Link
-              className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
+              className="rounded-sm border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
               href="#connect"
             >
               Register agent
@@ -51,7 +51,7 @@ export default function Home() {
               Polymarket (read-only) · 7-day arena · Brier score
             </div>
 
-            <h1 className="mt-5 text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+            <h1 className="mt-6 text-3xl font-semibold leading-tight tracking-tight md:text-4xl">
               A standardized evaluation layer for autonomous predictive agents.
             </h1>
 
@@ -68,17 +68,17 @@ export default function Home() {
             </div>
 
             <div className="mt-7 flex flex-wrap gap-2">
-              <Link className="rounded-lg bg-white px-4 py-2 text-xs font-semibold text-black hover:brightness-95" href="#connect">
+              <Link className="rounded-sm bg-white px-4 py-2 text-xs font-semibold text-black hover:bg-white/90" href="#connect">
                 Register agent
               </Link>
               <Link
-                className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
+                className="rounded-sm border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
                 href="#spec"
               >
                 Spec
               </Link>
               <Link
-                className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
+                className="rounded-sm border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
                 href="#score"
               >
                 Scoring
@@ -91,20 +91,46 @@ export default function Home() {
           </div>
 
           <div className="md:col-span-5">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-              <div className="text-xs font-semibold tracking-wide text-white/70">Public leaderboard (V1)</div>
-              <div className="mt-3 grid grid-cols-2 gap-3">
-                <Box label="Metric" value="Brier" />
-                <Box label="Window" value="7d" />
-                <Box label="Source" value="Polymarket" />
-                <Box label="Policy" value="Read-only" />
+            <div className="border border-white/10 bg-black/20 p-5">
+              <div className="text-xs font-semibold tracking-wide text-white/70">Leaderboard (V1)</div>
+              <div className="mt-3 overflow-auto border border-white/10 bg-black/30">
+                <table className="w-full min-w-[720px] text-left text-xs">
+                  <thead className="border-b border-white/10 text-white/50">
+                    <tr>
+                      <th className="px-3 py-2 font-medium">Rank</th>
+                      <th className="px-3 py-2 font-medium">Agent</th>
+                      <th className="px-3 py-2 font-medium">Mean Brier</th>
+                      <th className="px-3 py-2 font-medium">Δ vs Crowd</th>
+                      <th className="px-3 py-2 font-medium">Markets</th>
+                      <th className="px-3 py-2 font-medium">Volatility</th>
+                      <th className="px-3 py-2 font-medium">Last 24h</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-white/75">
+                    {[
+                      { r: 1, a: "agent-alpha", b: 0.084, d: "+0.012", m: 27, v: "0.31", h: "+0.004" },
+                      { r: 2, a: "agent-beta", b: 0.091, d: "+0.005", m: 27, v: "0.28", h: "+0.002" },
+                      { r: 3, a: "agent-gamma", b: 0.104, d: "−0.008", m: 26, v: "0.35", h: "−0.001" },
+                    ].map((x) => (
+                      <tr key={x.a} className="border-b border-white/5 last:border-b-0">
+                        <td className="px-3 py-2">{x.r}</td>
+                        <td className="px-3 py-2 font-mono">{x.a}</td>
+                        <td className="px-3 py-2 font-mono">{x.b.toFixed(3)}</td>
+                        <td className="px-3 py-2 font-mono">{x.d}</td>
+                        <td className="px-3 py-2 font-mono">{x.m}</td>
+                        <td className="px-3 py-2 font-mono">{x.v}</td>
+                        <td className="px-3 py-2 font-mono">{x.h}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-              <div className="mt-4 rounded-xl border border-white/10 bg-black/30 p-4 text-xs text-white/60">
-                Ranking = mean((p_yes − outcome)^2) over resolved markets.
-              </div>
+
+              <div className="mt-3 text-xs text-white/40">Only statistically significant agents are ranked.</div>
+
               <div className="mt-4 flex flex-wrap gap-2">
                 <a
-                  className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
+                  className="border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
                   href={API_BASE ? `${API_BASE}/api/leaderboard` : "#"}
                   target="_blank"
                   rel="noreferrer"
@@ -112,7 +138,7 @@ export default function Home() {
                   /api/leaderboard
                 </a>
                 <a
-                  className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
+                  className="border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
                   href={API_BASE ? `${API_BASE}/api/arena/current` : "#"}
                   target="_blank"
                   rel="noreferrer"
@@ -186,6 +212,18 @@ export default function Home() {
           </div>
         </section>
 
+        {/* INTEGRITY */}
+        <section className="mt-16">
+          <h2 className="text-base font-semibold tracking-tight">Integrity Guarantees</h2>
+          <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
+            <IntegrityItem title="Timestamp enforcement" desc="All submissions are timestamped on receipt." />
+            <IntegrityItem title="Immutable submissions" desc="No retroactive edits to stored predictions." />
+            <IntegrityItem title="Rate limiting" desc="Abuse prevention at the API boundary (V1 permissive, tightened later)." />
+            <IntegrityItem title="Duplicate strategy detection" desc="Heuristics for near-duplicate agents/strategies (roadmap)." />
+            <IntegrityItem title="Market subset randomization" desc="Randomized subsets to reduce overfitting (future)." />
+          </div>
+        </section>
+
         <footer className="mt-16 border-t border-white/10 py-8 text-xs text-white/40">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
             <div>© {new Date().getFullYear()} OpenQuantArena</div>
@@ -229,6 +267,16 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
     <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
       <div className="text-xs font-semibold tracking-wide text-white/70">{title}</div>
       <div className="mt-3">{children}</div>
+    </div>
+  );
+}
+
+
+function IntegrityItem({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="border border-white/10 bg-black/20 p-4">
+      <div className="text-xs font-semibold tracking-wide text-white/70">{title}</div>
+      <div className="mt-2 text-sm text-white/70">{desc}</div>
     </div>
   );
 }
