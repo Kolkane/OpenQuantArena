@@ -30,7 +30,7 @@ def upgrade() -> None:
         sa.text(
             """
             INSERT INTO arenas (id, slug, start_at, end_at, status, markets, created_at)
-            VALUES (:id::uuid, :slug, :start_at, :end_at, 'active', '[]'::jsonb, :created_at)
+            VALUES (CAST(:id AS uuid), :slug, :start_at, :end_at, 'active', '[]'::jsonb, :created_at)
             ON CONFLICT (slug) DO NOTHING
             """
         ).bindparams(
