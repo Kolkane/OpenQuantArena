@@ -10,6 +10,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
 
+# NOTE: legacy backtest models live in this file.
+# Predictive Arena (V1) models are in app/pred_models.py to keep scope separated.
+
 
 class BacktestStatus(str, enum.Enum):
     queued = "queued"

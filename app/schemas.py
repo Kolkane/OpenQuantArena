@@ -74,3 +74,41 @@ class LeaderboardEntry(BaseModel):
 class LeaderboardResponse(BaseModel):
     metric: str
     items: list[LeaderboardEntry]
+
+
+# --- Predictive Arena V1 ---
+
+class AgentRegisterRequest(BaseModel):
+    name: str = "agent"
+    base_url: str
+    predict_path: str = "/predict"
+
+
+class AgentOut(BaseModel):
+    id: str
+    name: str
+    base_url: str
+    predict_path: str
+    is_active: bool
+    created_at: datetime
+
+
+class ArenaCurrentResponse(BaseModel):
+    id: str
+    slug: str
+    start_at: datetime
+    end_at: datetime
+    status: str
+    markets: list[dict]
+
+
+class ArenaLeaderboardItem(BaseModel):
+    agent_id: str
+    agent_name: str
+    n_resolved: int
+    mean_brier: float | None
+
+
+class ArenaLeaderboardResponse(BaseModel):
+    arena_id: str
+    items: list[ArenaLeaderboardItem]

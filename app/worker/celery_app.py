@@ -17,3 +17,11 @@ celery_app.conf.update(
     timezone="UTC",
     enable_utc=True,
 )
+
+# Beat schedule (optional): enable with a celery beat process.
+try:
+    from app.worker.beat import CELERY_BEAT_SCHEDULE
+
+    celery_app.conf.beat_schedule = CELERY_BEAT_SCHEDULE
+except Exception:
+    pass
