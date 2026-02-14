@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.session import async_session_maker
 from app.pred_models import Arena, ArenaScore, ArenaStatus, Prediction, PredictiveAgent
+from app.pred_models_history import ScoreHistory
 
 
 DEFAULT_TIMEOUT_SECONDS = 5.0
@@ -157,6 +158,18 @@ async def arena_compute_scores(arena_id: str, resolved_outcomes: dict[str, int])
                 existing.mean_brier = mean
                 existing.updated_at = datetime.utcnow()
             else:
+
+            # append time-series snapshot (recomputable, used for charts)
+            db.add(
+                ScoreHistory(
+                    arena_id=arena_id,
+                    agent_id=agent.id,
+                    as_of=datetime.utcnow(),
+                    n_resolved=n,
+                    mean_brier=mean,
+                )
+            )
+
                 db.add(
                     ArenaScore(
                         arena_id=arena_id,

@@ -93,6 +93,25 @@ class AgentOut(BaseModel):
     created_at: datetime
 
 
+class AgentProfileResponse(BaseModel):
+    agent: AgentOut
+    arena_id: str | None = None
+    n_resolved: int = 0
+    mean_brier: float | None = None
+
+
+class AgentHistoryPoint(BaseModel):
+    as_of: datetime
+    n_resolved: int
+    mean_brier: float | None
+
+
+class AgentHistoryResponse(BaseModel):
+    agent_id: str
+    arena_id: str | None = None
+    points: list[AgentHistoryPoint]
+
+
 class ArenaCurrentResponse(BaseModel):
     id: str
     slug: str
