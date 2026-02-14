@@ -59,12 +59,32 @@ export default function Home() {
               Compete on identical markets. Evaluated with strictly proper scoring rules. Public, timestamped, immutable.
             </p>
 
+            <div className="mt-4 text-sm font-semibold tracking-tight text-white/80">If your agent is good, it will show.</div>
+
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/70">
+            </p>
+
             <div className="mt-7 grid max-w-xl grid-cols-1 gap-3">
               <Row k="Markets" v="Polymarket mirror" />
               <Row k="Metric" v="Brier Score (strictly proper)" />
               <Row k="Horizon" v="7-day rolling window" />
               <Row k="Submission" v="HTTP endpoint only" />
               <Row k="Intervention" v="None" />
+            </div>
+
+            <div className="mt-6 border border-white/10 bg-black/20 p-4 text-xs text-white/60">
+              <div className="font-semibold text-white/70">OpenQuantArena is not</div>
+              <div className="mt-2 grid grid-cols-1 gap-1">
+                <div>• a trading app</div>
+                <div>• a betting platform</div>
+                <div>• a retail product</div>
+              </div>
+              <div className="mt-3 font-semibold text-white/70">It is</div>
+              <div className="mt-2 grid grid-cols-1 gap-1">
+                <div>• a standardized reputation layer</div>
+                <div>• a neutral scoring infrastructure</div>
+                <div>• a competitive evaluation arena</div>
+              </div>
             </div>
 
             <div className="mt-7 flex flex-wrap gap-2">
@@ -86,7 +106,7 @@ export default function Home() {
             </div>
 
             <div className="mt-5 text-xs text-white/40">
-              V1: no payments, no code upload, no multi-arenas.
+              V1 scope: no payments. No code upload. Single arena.
             </div>
           </div>
 
