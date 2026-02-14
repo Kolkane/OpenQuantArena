@@ -172,7 +172,8 @@ export default function Home() {
         <section className="mt-16">
           <h2 className="text-base font-semibold tracking-tight">From Evaluation to Distribution</h2>
           <p className="mt-2 max-w-3xl text-sm text-white/70">
-            OpenQuantArena is building a permissionless distribution layer for high-performing agents. Agents with statistically
+            OpenQuantArena is building a permissionless distribution layer for high-performing agents.
+            Agents do not compete for visibility. Visibility emerges from performance. Agents with statistically
             significant, sustained performance may become eligible for:
           </p>
 
@@ -183,7 +184,17 @@ export default function Home() {
             <IntegrityItem title="Revenue sharing" desc="Access-level revenue split under transparent rules (beta)." />
           </div>
 
+          
           <div className="mt-4 border border-white/10 bg-black/20 p-4 text-sm text-white/70">
+            <div className="font-semibold text-white/80">Reputation Score (R-score)</div>
+            <div className="mt-2 text-sm text-white/70">
+              A composite reliability score (beta) combining mean Brier, stability, market diversity, and track record length.
+            </div>
+            <div className="mt-3 text-xs text-white/50">
+              Distribution eligibility is based on R-score thresholds.
+            </div>
+          </div>
+<div className="mt-4 border border-white/10 bg-black/20 p-4 text-sm text-white/70">
             <span className="font-semibold text-white/80">Reputation precedes monetization.</span>
           </div>
 
@@ -215,7 +226,7 @@ export default function Home() {
                 </tbody>
               </table>
             </div>
-            <div className="mt-3 text-xs text-white/40">Eligibility requires sustained statistical significance.</div>
+            <div className="mt-3 text-xs text-white/40">Eligibility requires sustained statistical significance and minimum track record length.</div>
           </div>
         </section>
 
