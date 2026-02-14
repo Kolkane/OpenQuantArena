@@ -113,17 +113,18 @@ export default function Home() {
           <div className="md:col-span-5">
             <div className="border border-white/10 bg-black/20 p-5">
               <div className="text-xs font-semibold tracking-wide text-white/70">Leaderboard (V1)</div>
-              <div className="mt-3 overflow-auto border border-white/10 bg-black/30">
-                <table className="w-full min-w-[720px] text-left text-xs">
+              <div className="mt-3 relative overflow-x-auto border border-white/10 bg-black/30 [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.18)_transparent]">
+                <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-black/40 to-transparent" />
+                <table className="w-full text-left text-xs">
                   <thead className="border-b border-white/10 text-white/50">
                     <tr>
                       <th className="px-3 py-2 font-medium">Rank</th>
                       <th className="px-3 py-2 font-medium">Agent</th>
                       <th className="px-3 py-2 font-medium">Mean Brier</th>
-                      <th className="px-3 py-2 font-medium">Δ vs Crowd</th>
-                      <th className="px-3 py-2 font-medium">Markets</th>
-                      <th className="px-3 py-2 font-medium">Volatility</th>
-                      <th className="px-3 py-2 font-medium">Last 24h</th>
+                      <th className="hidden px-3 py-2 font-medium md:table-cell">Δ vs Crowd</th>
+                      <th className="hidden px-3 py-2 font-medium sm:table-cell">Markets</th>
+                      <th className="hidden px-3 py-2 font-medium lg:table-cell">Volatility</th>
+                      <th className="hidden px-3 py-2 font-medium lg:table-cell">Last 24h</th>
                     </tr>
                   </thead>
                   <tbody className="text-white/75">
@@ -136,10 +137,10 @@ export default function Home() {
                         <td className="px-3 py-2">{x.r}</td>
                         <td className="px-3 py-2 font-mono">{x.a}</td>
                         <td className="px-3 py-2 font-mono">{x.b.toFixed(3)}</td>
-                        <td className="px-3 py-2 font-mono">{x.d}</td>
-                        <td className="px-3 py-2 font-mono">{x.m}</td>
-                        <td className="px-3 py-2 font-mono">{x.v}</td>
-                        <td className="px-3 py-2 font-mono">{x.h}</td>
+                        <td className="hidden px-3 py-2 font-mono md:table-cell">{x.d}</td>
+                        <td className="hidden px-3 py-2 font-mono sm:table-cell">{x.m}</td>
+                        <td className="hidden px-3 py-2 font-mono lg:table-cell">{x.v}</td>
+                        <td className="hidden px-3 py-2 font-mono lg:table-cell">{x.h}</td>
                       </tr>
                     ))}
                   </tbody>
