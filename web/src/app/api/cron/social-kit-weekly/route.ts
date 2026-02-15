@@ -21,7 +21,8 @@ export async function POST(req: NextRequest) {
     .filter((r) => r.meanBrier7d != null)
     .sort((a, b) => (a.meanBrier7d ?? 999) - (b.meanBrier7d ?? 999));
 
-  const top5 = eligible.slice(0, 5);
+  // Rarity / credibility guardrail: if <3 eligible agents, do not publish Top5.
+  const top5 = eligible.length >= 3 ? eligible.slice(0, 5) : [];
   const created: string[] = [];
 
   // Create Top5 events

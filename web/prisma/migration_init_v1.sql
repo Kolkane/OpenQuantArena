@@ -171,6 +171,9 @@ CREATE INDEX "Market_status_closeTime_idx" ON "Market"("status", "closeTime");
 CREATE INDEX "Prediction_snapshotAt_idx" ON "Prediction"("snapshotAt");
 
 -- CreateIndex
+CREATE INDEX "Prediction_marketId_agentId_createdAt_idx" ON "Prediction"("marketId", "agentId", "createdAt");
+
+-- CreateIndex
 CREATE INDEX "Prediction_agentId_createdAt_idx" ON "Prediction"("agentId", "createdAt");
 
 -- CreateIndex

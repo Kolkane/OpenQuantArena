@@ -116,6 +116,7 @@ model Prediction {
 
   @@unique([agentId, marketId, snapshotAt])
   @@index([snapshotAt])
+  @@index([marketId, agentId, createdAt])
   @@index([agentId, createdAt])
   @@index([marketId, createdAt])
 }
