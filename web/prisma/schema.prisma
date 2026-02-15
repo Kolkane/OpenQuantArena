@@ -1,0 +1,224 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MarketStatus {
+  OPEN
+  CLOSED
+  RESOLVED
+}
+
+enum SubscriptionStatus {
+  INCOMPLETE
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  UNPAID
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String?  @unique
+  name      String?
+  handle    String?  @unique
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  builderProfile      BuilderProfile?
+  subscriptions       Subscription[]
+  referralConversions ReferralConversion[]
+}
+
+model BuilderProfile {
+  userId String @id
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  bio        String?
+  twitterUrl String?
+  githubUrl  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  agents Agent[]
+}
+
+model Agent {
+  id        String         @id @default(cuid())
+  builderId String
+  builder   BuilderProfile @relation(fields: [builderId], references: [userId], onDelete: Cascade)
+
+  name              String
+  description       String
+  endpointUrl       String
+  endpointSecretEnc String?
+  isActive          Boolean @default(true)
+
+  subscriptionEnabled Boolean @default(false)
+  priceEurMonthly     Int? // e.g. 29, 49, 79
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  predictions   Prediction[]
+  scoresDaily   ScoreDaily[]
+  subscriptions Subscription[]
+
+  feedEvents FeedEvent[]
+  referrals  Referral[]
+
+  @@index([builderId])
+  @@index([isActive])
+}
+
+model Market {
+  id              String       @id
+  source          String
+  title           String
+  closeTime       DateTime
+  status          MarketStatus @default(OPEN)
+  crowdProb       Float?
+  resolvedOutcome Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  predictions Prediction[]
+
+  @@index([status, closeTime])
+}
+
+model Prediction {
+  id      String @id @default(cuid())
+  agentId String
+  agent   Agent  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  marketId String
+  market   Market @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  p         Float
+  createdAt DateTime @default(now())
+
+  @@unique([agentId, marketId, createdAt])
+  @@index([agentId, createdAt])
+  @@index([marketId, createdAt])
+}
+
+model ScoreDaily {
+  agentId String
+  agent   Agent  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  date            DateTime
+  meanBrier7d     Float?
+  volatility7d    Float?
+  marketsCount7d  Int?
+  deltaVsCrowd7d  Float?
+  trackRecordDays Int?
+
+  createdAt DateTime @default(now())
+
+  @@id([agentId, date])
+  @@index([date])
+}
+
+model Subscription {
+  id               String @id @default(cuid())
+  subscriberUserId String
+  subscriber       User   @relation(fields: [subscriberUserId], references: [id], onDelete: Cascade)
+
+  agentId String
+  agent   Agent  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  stripeSubId      String?            @unique
+  stripeCustomerId String?
+  status           SubscriptionStatus @default(INCOMPLETE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([subscriberUserId])
+  @@index([agentId])
+}
+
+model FeedEvent {
+  id        String @id @default(cuid())
+  uniqueKey String @unique // idempotency key (type+week+agentId+milestone)
+
+  week String // ISO week like 2026-W07
+  type String
+
+  agentId String?
+  agent   Agent?  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  payload   Json
+  createdAt DateTime @default(now())
+
+  referrals Referral[]
+
+  @@index([week])
+  @@index([type, week])
+  @@index([agentId, week])
+}
+
+model Referral {
+  code    String    @id // short code used in URLs
+  eventId String
+  event   FeedEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  agentId String
+  agent   Agent  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  clicks      ReferralClick[]
+  conversions ReferralConversion[]
+
+  @@index([eventId])
+  @@index([agentId])
+}
+
+model ReferralClick {
+  id       String   @id @default(cuid())
+  code     String
+  referral Referral @relation(fields: [code], references: [code], onDelete: Cascade)
+
+  // V1 privacy: hashed fields only
+  ipHash String?
+  uaHash String?
+
+  createdAt DateTime @default(now())
+
+  @@index([code, createdAt])
+}
+
+enum ReferralConversionType {
+  SIGNUP
+  SUBSCRIPTION
+}
+
+model ReferralConversion {
+  id       String   @id @default(cuid())
+  code     String
+  referral Referral @relation(fields: [code], references: [code], onDelete: Cascade)
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  type      ReferralConversionType
+  createdAt DateTime               @default(now())
+
+  @@index([code, createdAt])
+  @@index([type, createdAt])
+}
