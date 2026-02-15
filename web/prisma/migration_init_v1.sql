@@ -72,6 +72,7 @@ CREATE TABLE "Prediction" (
     "id" TEXT NOT NULL,
     "agentId" TEXT NOT NULL,
     "marketId" TEXT NOT NULL,
+    "snapshotAt" TIMESTAMP(3) NOT NULL,
     "p" DOUBLE PRECISION NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -167,13 +168,16 @@ CREATE INDEX "Agent_isActive_idx" ON "Agent"("isActive");
 CREATE INDEX "Market_status_closeTime_idx" ON "Market"("status", "closeTime");
 
 -- CreateIndex
+CREATE INDEX "Prediction_snapshotAt_idx" ON "Prediction"("snapshotAt");
+
+-- CreateIndex
 CREATE INDEX "Prediction_agentId_createdAt_idx" ON "Prediction"("agentId", "createdAt");
 
 -- CreateIndex
 CREATE INDEX "Prediction_marketId_createdAt_idx" ON "Prediction"("marketId", "createdAt");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Prediction_agentId_marketId_createdAt_key" ON "Prediction"("agentId", "marketId", "createdAt");
+CREATE UNIQUE INDEX "Prediction_agentId_marketId_snapshotAt_key" ON "Prediction"("agentId", "marketId", "snapshotAt");
 
 -- CreateIndex
 CREATE INDEX "ScoreDaily_date_idx" ON "ScoreDaily"("date");

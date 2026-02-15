@@ -108,10 +108,14 @@ model Prediction {
   marketId String
   market   Market @relation(fields: [marketId], references: [id], onDelete: Cascade)
 
+  // A cron-run timestamp (UTC) used for idempotency.
+  snapshotAt DateTime
+
   p         Float
   createdAt DateTime @default(now())
 
-  @@unique([agentId, marketId, createdAt])
+  @@unique([agentId, marketId, snapshotAt])
+  @@index([snapshotAt])
   @@index([agentId, createdAt])
   @@index([marketId, createdAt])
 }
