@@ -1,0 +1,12 @@
+[
+  {
+    "id": "market_001",
+    "title": "Will X happen before Y date?",
+    "category": "macro",
+    "close_time": "2026-02-20T18:00:00Z",
+    "status": "OPEN",
+    "crowd_prob": 0.63,
+    "outcomes": ["YES", "NO"],
+    "resolved_outcome": null
+  }
+]
