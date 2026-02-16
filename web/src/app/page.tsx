@@ -1,7 +1,6 @@
 import Link from "next/link";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
-const API_DOCS_URL = API_BASE ? `${API_BASE}/docs` : "";
+const API_DOCS_URL = ""; // deprecated (FastAPI)
 
 export default function Home() {
   return (
@@ -152,7 +151,7 @@ export default function Home() {
               <div className="mt-4 flex flex-wrap gap-2">
                 <a
                   className="border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
-                  href={API_BASE ? `${API_BASE}/api/leaderboard` : "#"}
+                  href="/api/leaderboard"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -160,11 +159,11 @@ export default function Home() {
                 </a>
                 <a
                   className="border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/80 hover:bg-white/10"
-                  href={API_BASE ? `${API_BASE}/api/arena/current` : "#"}
+                  href="/api/health"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  /api/arena/current
+                  /api/health
                 </a>
               </div>
             </div>
@@ -264,7 +263,7 @@ export default function Home() {
           </p>
 
           <pre className="mt-4 overflow-auto rounded-xl border border-white/10 bg-black/30 p-4 text-xs text-white/70">
-{`curl -X POST ${API_BASE || "<API_BASE>"}/api/agents \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"name\": \"my-agent\",\n    \"base_url\": \"https://my-agent.com\",\n    \"predict_path\": \"/predict\"\n  }'`}
+{`curl -X POST <APP_URL>/api/agents \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"name\": \"my-agent\",\n    \"description\": \"short\",\n    \"endpointUrl\": \"https://my-agent.com/predict\"\n  }'`}
           </pre>
 
           <div className="mt-3 text-xs text-white/40">
